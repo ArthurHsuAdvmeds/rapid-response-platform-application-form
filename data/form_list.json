@@ -1,0 +1,42 @@
+[
+  {
+    "key": "emergency-notification",
+    "zhName": "個案緊急通報申請",
+    "enName": "Emergency Case Notification",
+    "description": "發現需立即介入之個案時使用，送出後將由專責窗口優先處理。",
+    "url": "https://example.com/?form=emergency-notification",
+    "icon": "alert"
+  },
+  {
+    "key": "optimization-plan",
+    "zhName": "照護優化方案通報",
+    "enName": "Care Optimization Plan Notification",
+    "description": "針對既有照護流程提出改善或優化建議。",
+    "url": "https://example.com/?form=optimization-plan",
+    "icon": "clipboard"
+  },
+  {
+    "key": "follow-up",
+    "zhName": "通報後續追蹤回報",
+    "enName": "Follow-up Report",
+    "description": "已通報個案之處理進度更新與追蹤紀錄。",
+    "url": "https://example.com/?form=follow-up",
+    "icon": "refresh"
+  },
+  {
+    "key": "account-application",
+    "zhName": "平台帳號申請",
+    "enName": "Platform Account Application",
+    "description": "新進人員或單位申請通報平台使用帳號與權限。",
+    "url": "https://example.com/?form=account-application",
+    "icon": "user"
+  },
+  {
+    "key": "network-partner",
+    "zhName": "網絡單位合作申請",
+    "enName": "Network Partner Application",
+    "description": "外部合作機構申請加入通報網絡。",
+    "url": "",
+    "icon": "network"
+  }
+]

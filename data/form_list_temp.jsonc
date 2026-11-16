@@ -1,0 +1,12 @@
+// 欄位說明範本（網頁實際讀取的是 data/form_list.json）
+// 新增項目：複製下方物件到 form_list.json 的陣列中，依序排列即為網頁顯示順序。
+[
+    {
+        "key": "key",                   // 唯一識別碼，英數與 - 即可
+        "zhName": "中文名稱",            // 卡片主標題
+        "enName": "English Name",       // 卡片副標題
+        "description": "簡短說明",        // 選填，一兩句話說明用途
+        "url": "https://...",           // 表單連結；留空字串 "" 會顯示「連結準備中」且不可點擊
+        "icon": "document"              // 選填：alert | clipboard | refresh | user | network | document（預設）
+    }
+]
