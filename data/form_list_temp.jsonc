@@ -3,10 +3,13 @@
 [
     {
         "key": "key",                   // 唯一識別碼，英數與 - 即可
-        "zhName": "中文名稱",            // 卡片主標題
-        "enName": "English Name",       // 卡片副標題
-        "description": "簡短說明",        // 選填，一兩句話說明用途
+        "zhName": "中文名稱",            // 卡片標題
+        "enName": "English Name",       // 選填，標題下方的英文小字
+        "description": "簡短說明",        // 選填，用 \n 換行
         "url": "https://...",           // 表單連結；留空字串 "" 會顯示「連結準備中」且不可點擊
-        "icon": "document"              // 選填：alert | clipboard | refresh | user | network | document（預設）
+        "icon": "document",             // 選填：phone | alert | clipboard | refresh | user | users | network | document（預設）
+        "color": "blue",                // 選填：red | blue | green | orange | navy；未填則依順序輪替
+        "image": "images/xxx.webp",     // 選填，自訂插圖路徑；未填則使用內建插圖
+        "buttonText": "前往申請"          // 選填，按鈕文字
     }
 ]

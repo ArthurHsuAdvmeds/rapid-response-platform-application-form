@@ -3,420 +3,389 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>通報平台申請</title>
-  <meta name="description" content="快速通報平台申請表單入口，選擇項目即可前往對應表單。" />
+  <title>通報平台申請表單</title>
+  <meta name="description" content="通報平台申請表單入口，選擇項目即可前往對應表單。" />
   <meta name="theme-color" content="#ffffff" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --primary-100: #f0fbd7;
-      --primary-300: #c3ec85;
-      --primary-500: #7bc235;
-      --primary-700: #5fa626;
-      --primary-900: #478b1a;
-      --primary-ink: #3d7a14;      /* 綠色文字與按鈕底色，確保白字對比足夠 */
-      --primary-ink-hover: #33680f;
-
-      --gray-100: #f0f1ee;
-      --gray-200: #e0e0e0;
-      --gray-300: #c4c4c4;
-      --gray-500: #8a8a8a;
-      --gray-700: #666666;
-      --gray-900: #3e3e3e;
-
-      --bg: #f6f8f3;
-      --surface: #ffffff;
-      --radius: 14px;
-      --nav-height: 3.75rem;
-      --shadow: 0 1px 2px rgba(30, 50, 10, .06), 0 2px 8px rgba(30, 50, 10, .04);
-      --shadow-hover: 0 4px 18px rgba(71, 139, 26, .14);
+      --text: #333333;
+      --muted: #666666;
+      --bg: #fafafa;
+      --banner-gradient: linear-gradient(101.39deg, #3ed2ff 0%, #a6f882 100.79%);
+      --shadow-md: 0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;
     }
 
-    *, *::before, *::after { box-sizing: border-box; }
+    /* 卡片配色：data-color 對應 form_list.json 的 color 欄位 */
+    [data-color="red"]    { --c100: #fdeceb; --c500: #e54b4b; --c700: #c43643; --ct: #c43643; }
+    [data-color="blue"]   { --c100: #e2f5fb; --c500: #19aad1; --c700: #1285b3; --ct: #1285b3; }
+    [data-color="green"]  { --c100: #eef9e0; --c500: #7bc235; --c700: #5fa626; --ct: #7bc235; }
+    [data-color="orange"] { --c100: #fef3e2; --c500: #fb9b2a; --c700: #d77a1e; --ct: #d77a1e; }
+    [data-color="navy"]   { --c100: #e5effb; --c500: #267bd4; --c700: #1d5fa8; --ct: #1d5fa8; }
 
-    html { -webkit-text-size-adjust: 100%; }
+    *, *::before, *::after { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      font-family: "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif;
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--gray-900);
+      font-family: "Noto Sans TC", sans-serif;
+      color: var(--text);
       background: var(--bg);
+      -webkit-text-size-adjust: 100%;
     }
 
-    a { color: inherit; }
-
-    .container {
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 16px;
+    /* ---------- 頂部 ---------- */
+    .m-header {
+      display: flex;
+      align-items: center;
+      height: 3.5rem;
+      padding: .5rem;
+      background: #fff;
     }
-
-    /* ---------- 頂部導覽列 ---------- */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      height: var(--nav-height);
-      background: var(--surface);
-      border-bottom: 1px solid var(--gray-200);
-    }
-    .navbar .container {
+    .m-header-logo {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
       height: 100%;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      background: var(--primary-500);
+    .emblem {
+      height: 100%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: var(--banner-gradient);
       color: #fff;
       display: grid;
       place-items: center;
-      flex: none;
     }
-    .brand-name {
-      font-weight: 700;
-      font-size: 17px;
-      letter-spacing: .02em;
-    }
-    .brand-sub {
-      font-size: 12px;
-      color: var(--gray-700);
-      margin-left: 2px;
-    }
-
-    /* ---------- 標題區 ---------- */
-    .hero {
-      background: linear-gradient(180deg, var(--primary-100) 0%, var(--bg) 100%);
-      padding: 36px 0 28px;
-    }
-    .hero h1 {
-      margin: 0 0 6px;
-      font-size: clamp(24px, 4.5vw, 30px);
-      font-weight: 700;
-      line-height: 1.3;
-      text-wrap: balance;
-    }
-    .hero p {
+    .emblem svg { width: 55%; height: 55%; }
+    .m-header-logo p {
       margin: 0;
-      color: var(--gray-700);
-      max-width: 36em;
-    }
-
-    /* ---------- 搜尋 ---------- */
-    .toolbar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 22px 0 18px;
-    }
-    .search {
-      position: relative;
-      flex: 1;
-    }
-    .search svg {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray-500);
-      pointer-events: none;
-    }
-    .search input {
-      width: 100%;
-      height: 46px;
-      padding: 0 14px 0 42px;
-      font: inherit;
-      color: inherit;
-      background: var(--surface);
-      border: 1px solid var(--gray-200);
-      border-radius: 999px;
-      outline: none;
-      transition: border-color .15s, box-shadow .15s;
-    }
-    .search input::placeholder { color: var(--gray-500); }
-    .search input:focus {
-      border-color: var(--primary-500);
-      box-shadow: 0 0 0 3px rgba(123, 194, 53, .2);
-    }
-    .count {
-      flex: none;
-      font-size: 13px;
-      color: var(--gray-700);
-      white-space: nowrap;
-    }
-
-    /* ---------- 表單卡片 ---------- */
-    .grid {
-      list-style: none;
-      margin: 0 0 40px;
-      padding: 0;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    @media (min-width: 720px) {
-      .grid { grid-template-columns: 1fr 1fr; gap: 16px; }
-    }
-
-    .card {
-      position: relative;
-      display: flex;
-      gap: 14px;
-      padding: 18px;
-      background: var(--surface);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      transition: border-color .15s, box-shadow .15s, transform .15s;
-      min-width: 0;
-    }
-    .card.is-active:hover {
-      border-color: var(--primary-500);
-      box-shadow: var(--shadow-hover);
-      transform: translateY(-2px);
-    }
-    .card.is-active:has(.card-link:focus-visible) {
-      border-color: var(--primary-500);
-      box-shadow: 0 0 0 3px rgba(123, 194, 53, .35);
-    }
-
-    .card-icon {
-      flex: none;
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: var(--primary-100);
-      color: var(--primary-900);
-      display: grid;
-      place-items: center;
-    }
-    .card.is-pending .card-icon {
-      background: var(--gray-100);
-      color: var(--gray-500);
-    }
-
-    .card-body {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-    }
-    .card-title {
-      margin: 0;
-      font-size: 17px;
-      font-weight: 700;
-      line-height: 1.4;
-    }
-    .card-en {
-      margin: 1px 0 0;
-      font-size: 13px;
-      color: var(--gray-700);
-      line-height: 1.4;
-    }
-    .card-desc {
-      margin: 8px 0 0;
-      font-size: 14px;
-      color: var(--gray-700);
-    }
-    .card-foot {
-      margin-top: auto;
-      padding-top: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    /* 整張卡片可點擊：連結的 ::after 覆蓋整張卡 */
-    .card-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      border-radius: 999px;
-      background: var(--primary-ink);
-      color: #fff;
-      font-weight: 700;
-      font-size: 14px;
-      text-decoration: none;
-      outline: none;
-      transition: background .15s;
-    }
-    .card-link::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: var(--radius);
-    }
-    .card.is-active:hover .card-link { background: var(--primary-ink-hover); }
-
-    .pending-tag {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: var(--gray-100);
-      color: var(--gray-700);
-      font-size: 13px;
+      font-size: 1rem;
       font-weight: 500;
     }
 
-    .copy-btn {
+    /* ---------- 橫幅 ---------- */
+    .m-banner {
       position: relative;
-      z-index: 1;               /* 浮在整卡連結之上 */
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 14rem;
+      overflow: hidden;
+      background: var(--banner-gradient);
+    }
+    .m-banner-text {
+      position: relative;
+      z-index: 1;
+      padding: 0 1rem;
+      color: #fff;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      font-weight: 700;
+      text-shadow: 0 1px 6px rgba(0, 80, 120, .12);
+    }
+    .m-banner-text p { margin: 0; white-space: nowrap; }
+    .m-banner-art {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 64%;
+      height: 100%;
+    }
+    .m-banner-art svg { display: block; width: 100%; height: 100%; }
+
+    /* ---------- 表單卡片 ---------- */
+    .m-items {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem 1rem;
+    }
+
+    .m-item {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      width: 100%;
+      max-width: 37.5rem;
+      padding: 1rem 1.25rem;
+      background: #fff;
+      border-radius: .375rem;
+      box-shadow: var(--shadow-md);
+    }
+    .m-item-media {
+      flex: 0 0 40%;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .m-item-media svg,
+    .m-item-media img { display: block; width: 100%; height: auto; }
+    .m-item-media img { border-radius: 1rem; }
+
+    .m-item-body {
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .m-item-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    .m-item-title { margin: 0; }
+    .m-item-title h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+      font-weight: 500;
+      color: var(--ct);
+      text-wrap: balance;
+    }
+    .m-item-title small {
+      display: block;
+      font-size: .75rem;
+      line-height: 1rem;
+      color: #9e9e9e;
+    }
+    .m-item-desc {
+      margin: 0;
+      font-size: .875rem;
+      line-height: 1.25rem;
+      white-space: pre-line;
+    }
+
+    .m-button {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 7px 12px;
-      font: inherit;
-      font-size: 13px;
-      color: var(--gray-700);
-      background: transparent;
-      border: 1px solid var(--gray-200);
-      border-radius: 999px;
-      cursor: pointer;
-      transition: color .15s, border-color .15s, background .15s;
-    }
-    .copy-btn:hover {
-      color: var(--primary-ink);
-      border-color: var(--primary-300);
-      background: var(--primary-100);
-    }
-    .copy-btn:focus-visible {
-      outline: 2px solid var(--primary-500);
-      outline-offset: 2px;
-    }
-
-    /* ---------- 狀態訊息 ---------- */
-    .state {
-      text-align: center;
-      padding: 48px 16px;
-      color: var(--gray-700);
-      background: var(--surface);
-      border: 1px dashed var(--gray-300);
-      border-radius: var(--radius);
-      margin-bottom: 40px;
-    }
-    .state strong { display: block; color: var(--gray-900); font-size: 16px; margin-bottom: 4px; }
-    .state code { background: var(--gray-100); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
-
-    .skeleton {
-      height: 150px;
-      border-radius: var(--radius);
-      background: linear-gradient(90deg, #eef1ea 25%, #f6f8f3 50%, #eef1ea 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.2s infinite linear;
-    }
-    @keyframes shimmer { to { background-position: -200% 0; } }
-
-    /* ---------- 頁尾 ---------- */
-    footer {
-      margin-top: auto;
-      padding: 20px 0 28px;
-      font-size: 13px;
-      color: var(--gray-500);
-      text-align: center;
-    }
-
-    /* ---------- 提示訊息 ---------- */
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 24px;
-      transform: translate(-50%, 20px);
-      padding: 10px 18px;
-      border-radius: 999px;
-      background: var(--gray-900);
+      justify-content: center;
+      gap: .5rem;
+      width: 100%;
+      height: 2.5rem;
+      padding: 0 1rem;
+      border-radius: 9999px;
+      background: var(--c500);
       color: #fff;
-      font-size: 14px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .2s, transform .2s;
-      z-index: 20;
+      font-size: .875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background-color .15s, box-shadow .15s;
     }
-    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .m-button svg { flex: none; }
+    a.m-button:hover { background: var(--c700); }
+    a.m-button:focus-visible { outline: 3px solid var(--c500); outline-offset: 3px; }
+    /* 整張卡片都可以點 */
+    a.m-button::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: .375rem;
+    }
+
+    .m-item.is-pending .m-item-media { filter: grayscale(1); opacity: .55; }
+    .m-item.is-pending .m-item-title h3 { color: #9e9e9e; }
+    .m-item.is-pending .m-button { background: #c4c4c4; cursor: default; }
+
+    .m-state {
+      width: 100%;
+      max-width: 37.5rem;
+      padding: 2.5rem 1.25rem;
+      text-align: center;
+      background: #fff;
+      border-radius: .375rem;
+      box-shadow: var(--shadow-md);
+      color: var(--muted);
+      font-size: .875rem;
+    }
+    .m-state strong { display: block; margin-bottom: .25rem; font-size: 1.125rem; font-weight: 500; color: var(--text); }
+    .m-state code { background: #f0f0f0; padding: 1px 6px; border-radius: 4px; }
+
+    .m-skeleton {
+      width: 100%;
+      max-width: 37.5rem;
+      height: 11rem;
+      border-radius: .375rem;
+      background: #fff;
+      box-shadow: var(--shadow-md);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse { 50% { opacity: .5; } }
+
+    /* ---------- 桌機 ---------- */
+    @media (min-width: 1024px) {
+      .m-header { height: 5.75rem; padding: 1rem 1.5rem; }
+      .m-header-logo p { font-size: 1.25rem; }
+
+      .m-banner { height: 19rem; }
+      .m-banner-text { padding: 0 4rem; font-size: 4.5rem; line-height: 1.05; }
+      .m-banner-art { width: 60%; }
+
+      .m-items {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+        gap: 1.5rem;
+        padding-top: 2.5rem;
+        max-width: 76rem;
+        margin: 0 auto;
+      }
+      .m-item { flex-direction: column; gap: 1.5rem; max-width: 22.125rem; }
+      .m-item-title h3 { font-size: 1.5rem; line-height: 2rem; }
+      .m-item-media { flex: none; }
+      .m-item-body { flex: 1; justify-content: flex-start; }
+      .m-item-text { flex: 1; justify-content: flex-start; }
+      .m-button { width: auto; }
+      .m-skeleton { max-width: 22.125rem; height: 24rem; }
+      .m-state { max-width: 40rem; }
+    }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { transition: none !important; animation: none !important; }
+      * { transition: none !important; animation: none !important; }
     }
   </style>
 </head>
 <body>
-  <header class="navbar">
-    <div class="container">
-      <span class="brand-mark" aria-hidden="true">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-6 5 12 2.5-6h4"/></svg>
+  <header class="m-header">
+    <div class="m-header-logo">
+      <span class="emblem" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-6 5 12 2.5-6h4"/></svg>
       </span>
-      <span class="brand-name">快速通報平台</span>
-      <span class="brand-sub">Rapid Response Platform</span>
+      <p>通報平台申請表單</p>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="container">
-      <h1>通報平台申請表單</h1>
-      <p>請選擇您要申請的項目，點擊卡片即會在新分頁開啟對應的表單。</p>
+  <section class="m-banner">
+    <div class="m-banner-text">
+      <p>通報平台</p>
+      <p>申請表單</p>
+    </div>
+    <div class="m-banner-art" aria-hidden="true">
+      <svg viewBox="0 0 520 304" preserveAspectRatio="xMaxYMax meet">
+        <!-- 背景色塊 -->
+        <path d="M150 304C108 248 104 172 150 118C198 60 276 16 364 8C432 2 490 22 520 40V304Z" fill="#fff" fill-opacity=".5"/>
+        <!-- 網絡連線 -->
+        <g stroke="#fff" stroke-width="1.6" fill="none" stroke-opacity=".95">
+          <path d="M178 98L252 60L334 34L426 50L500 100"/>
+          <path d="M252 60L278 112"/>
+          <path d="M178 98L162 186L198 262"/>
+          <path d="M426 50L470 150"/>
+          <path d="M334 34L322 112"/>
+        </g>
+        <g fill="#fff">
+          <circle cx="252" cy="60" r="4.5"/><circle cx="426" cy="50" r="4.5"/>
+          <circle cx="500" cy="100" r="4.5"/><circle cx="162" cy="186" r="4.5"/>
+        </g>
+        <!-- 圖示泡泡 -->
+        <g stroke="#7cc3df" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="178" cy="98" r="20" fill="#fff" stroke="#c4e9f6"/>
+          <rect x="169" y="92" width="18" height="12" rx="2"/><path d="M169 93l9 6 9-6"/>
+          <circle cx="334" cy="34" r="20" fill="#fff" stroke="#c4e9f6"/>
+          <circle cx="334" cy="34" r="8"/><path d="M334 29v5l3 2"/>
+          <circle cx="198" cy="262" r="20" fill="#fff" stroke="#c4e9f6"/>
+          <circle cx="198" cy="257" r="4"/><path d="M191 270a7 7 0 0 1 14 0"/>
+          <circle cx="470" cy="150" r="20" fill="#fff" stroke="#c4e9f6"/>
+          <path d="M470 141l-8 15h16z"/><path d="M470 148v3"/>
+        </g>
+        <!-- 螢幕 -->
+        <rect x="232" y="112" width="190" height="128" rx="10" fill="#33475b"/>
+        <rect x="241" y="121" width="172" height="104" rx="4" fill="#fff"/>
+        <rect x="241" y="121" width="172" height="16" rx="4" fill="#e3f4fa"/>
+        <circle cx="251" cy="129" r="2.5" fill="#e54b4b"/><circle cx="259" cy="129" r="2.5" fill="#fb9b2a"/><circle cx="267" cy="129" r="2.5" fill="#7bc235"/>
+        <circle cx="262" cy="158" r="10" fill="#c7e0f9"/>
+        <rect x="280" y="151" width="62" height="5" rx="2.5" fill="#19aad1"/>
+        <rect x="280" y="161" width="42" height="5" rx="2.5" fill="#dbe7ee"/>
+        <circle cx="262" cy="194" r="10" fill="#d9f2c4"/>
+        <rect x="280" y="187" width="54" height="5" rx="2.5" fill="#7bc235"/>
+        <rect x="280" y="197" width="36" height="5" rx="2.5" fill="#dbe7ee"/>
+        <rect x="316" y="240" width="22" height="24" fill="#33475b"/>
+        <rect x="290" y="262" width="74" height="8" rx="4" fill="#33475b"/>
+        <!-- 表單卡 -->
+        <rect x="392" y="152" width="104" height="124" rx="10" fill="#000" fill-opacity=".08"/>
+        <rect x="388" y="146" width="104" height="124" rx="10" fill="#fff"/>
+        <g>
+          <rect x="400" y="166" width="12" height="12" rx="3" fill="#7bc235"/>
+          <rect x="418" y="169" width="58" height="6" rx="3" fill="#dbe7ee"/>
+          <rect x="400" y="190" width="12" height="12" rx="3" fill="#7bc235"/>
+          <rect x="418" y="193" width="46" height="6" rx="3" fill="#dbe7ee"/>
+          <rect x="400" y="214" width="12" height="12" rx="3" fill="#7bc235"/>
+          <rect x="418" y="217" width="54" height="6" rx="3" fill="#dbe7ee"/>
+          <rect x="401" y="239" width="10" height="10" rx="3" fill="none" stroke="#c4c4c4" stroke-width="2"/>
+          <rect x="418" y="241" width="40" height="6" rx="3" fill="#dbe7ee"/>
+          <path d="M403 172l2.5 2.5 4-4.5M403 196l2.5 2.5 4-4.5M403 220l2.5 2.5 4-4.5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <circle cx="488" cy="148" r="18" fill="#7bc235"/>
+        <path d="M480 148l5.5 5.5 10-11" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
   </section>
 
-  <main class="container">
-    <div class="toolbar">
-      <label class="search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="search" type="search" placeholder="搜尋表單名稱…" autocomplete="off" aria-label="搜尋表單" />
-      </label>
-      <span class="count" id="count" aria-live="polite"></span>
-    </div>
-
-    <ul class="grid" id="list" aria-busy="true">
-      <li class="skeleton"></li><li class="skeleton"></li>
-      <li class="skeleton"></li><li class="skeleton"></li>
-    </ul>
-    <div id="state" hidden></div>
+  <main class="m-items" id="list" aria-busy="true">
+    <div class="m-skeleton"></div><div class="m-skeleton"></div><div class="m-skeleton"></div>
   </main>
-
-  <footer>
-    <div class="container">表單將於新分頁開啟 · 如有問題請洽系統管理員</div>
-  </footer>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
     (function () {
       var DATA_URL = "data/form_list.json";
+      var COLORS = ["red", "blue", "green", "orange", "navy"];
 
+      // 24x24 線條圖示
       var ICONS = {
+        phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
         alert: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
         clipboard: '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6"/><path d="M9 16h4"/>',
         refresh: '<path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5"/>',
         user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+        users: '<circle cx="9" cy="7" r="4"/><path d="M2 21v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/><path d="M22 21v-1a5 5 0 0 0-3.5-4.8"/>',
         network: '<circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4"/><path d="m12 11.5-5.3 5.6"/><path d="m12 11.5 5.3 5.6"/>',
         document: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/>'
       };
-      var ICON_ARROW = '<path d="M7 17 17 7"/><path d="M8 7h9v9"/>';
-      var ICON_COPY = '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>';
 
       var listEl = document.getElementById("list");
-      var stateEl = document.getElementById("state");
-      var countEl = document.getElementById("count");
-      var searchEl = document.getElementById("search");
-      var toastEl = document.getElementById("toast");
-      var forms = [];
 
-      function svg(paths, size) {
-        size = size || 24;
-        return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + "</svg>";
+      function icon(name, size, strokeWidth) {
+        return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (strokeWidth || 2) +
+          '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[name] || ICONS.document) + "</svg>";
+      }
+
+      // 沒有提供 image 時使用的插圖，顏色跟著卡片配色
+      function illustration(name) {
+        return '<svg viewBox="0 0 300 220" aria-hidden="true">' +
+          '<path d="M58 40C92 8 170 4 220 26c46 20 68 70 50 116-18 48-74 70-132 64C80 200 30 172 22 124 16 88 30 64 58 40z" style="fill:var(--c100)"/>' +
+          '<circle cx="248" cy="42" r="8" style="fill:var(--c500)" opacity=".35"/>' +
+          '<circle cx="36" cy="176" r="5" style="fill:var(--c500)" opacity=".35"/>' +
+          '<circle cx="60" cy="56" r="10" fill="none" style="stroke:var(--c500)" stroke-width="2" opacity=".4"/>' +
+          '<path d="M66 168q84 40 170 0" fill="none" style="stroke:var(--c500)" stroke-width="2" stroke-dasharray="4 7" stroke-linecap="round" opacity=".45"/>' +
+          '<rect x="34" y="92" width="62" height="38" rx="8" fill="#000" opacity=".06" transform="translate(3 4)"/>' +
+          '<rect x="34" y="92" width="62" height="38" rx="8" fill="#fff"/>' +
+          '<circle cx="50" cy="111" r="7" style="fill:var(--c100)"/>' +
+          '<rect x="62" y="105" width="24" height="5" rx="2.5" style="fill:var(--c500)" opacity=".7"/>' +
+          '<rect x="62" y="114" width="16" height="5" rx="2.5" fill="#dbe7ee"/>' +
+          '<rect x="206" y="120" width="64" height="40" rx="8" fill="#000" opacity=".06" transform="translate(3 4)"/>' +
+          '<rect x="206" y="120" width="64" height="40" rx="8" fill="#fff"/>' +
+          '<rect x="216" y="131" width="44" height="5" rx="2.5" fill="#dbe7ee"/>' +
+          '<rect x="216" y="142" width="30" height="5" rx="2.5" style="fill:var(--c500)" opacity=".7"/>' +
+          '<circle cx="152" cy="108" r="60" fill="#000" opacity=".05"/>' +
+          '<circle cx="150" cy="104" r="58" fill="#fff"/>' +
+          '<circle cx="150" cy="104" r="46" style="fill:var(--c500)"/>' +
+          '<g transform="translate(150 104) scale(2.1) translate(-12 -12)" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' +
+          (ICONS[name] || ICONS.document) + "</g></svg>";
       }
 
       function el(tag, className, text) {
@@ -426,7 +395,7 @@
         return node;
       }
 
-      // 只接受 http(s) 連結，其餘視為「準備中」
+      // 只接受 http(s) 或站內相對路徑
       function safeUrl(url) {
         if (!url || typeof url !== "string") return "";
         try {
@@ -437,112 +406,64 @@
         }
       }
 
-      function renderCard(item) {
+      function renderItem(item, index) {
         var url = safeUrl(item.url);
-        var li = el("li", "card " + (url ? "is-active" : "is-pending"));
+        var name = item.zhName || item.key || "";
+        var color = COLORS.indexOf(item.color) !== -1 ? item.color : COLORS[index % COLORS.length];
 
-        var icon = el("div", "card-icon");
-        icon.innerHTML = svg(ICONS[item.icon] || ICONS.document);
-        li.appendChild(icon);
+        var card = el("article", "m-item" + (url ? "" : " is-pending"));
+        card.setAttribute("data-color", color);
 
-        var body = el("div", "card-body");
-        body.appendChild(el("h2", "card-title", item.zhName || item.key));
-        if (item.enName) body.appendChild(el("p", "card-en", item.enName));
-        if (item.description) body.appendChild(el("p", "card-desc", item.description));
+        var media = el("div", "m-item-media");
+        var img = safeUrl(item.image);
+        if (img) {
+          var image = el("img");
+          image.src = img;
+          image.alt = "";
+          image.loading = "lazy";
+          media.appendChild(image);
+        } else {
+          media.innerHTML = illustration(item.icon);
+        }
+        card.appendChild(media);
 
-        var foot = el("div", "card-foot");
+        var body = el("div", "m-item-body");
+        var text = el("div", "m-item-text");
+        var title = el("div", "m-item-title");
+        title.appendChild(el("h3", "", name));
+        if (item.enName) title.appendChild(el("small", "", item.enName));
+        text.appendChild(title);
+        if (item.description) text.appendChild(el("p", "m-item-desc", item.description));
+        body.appendChild(text);
+
+        var btn;
         if (url) {
-          var link = el("a", "card-link", "前往填寫");
-          link.href = url;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          link.setAttribute("aria-label", "前往填寫：" + (item.zhName || item.key) + "（開啟新分頁）");
-          link.insertAdjacentHTML("beforeend", svg(ICON_ARROW, 16));
-          foot.appendChild(link);
-
-          var copy = el("button", "copy-btn");
-          copy.type = "button";
-          copy.innerHTML = svg(ICON_COPY, 14);
-          copy.appendChild(document.createTextNode("複製連結"));
-          copy.setAttribute("aria-label", "複製「" + (item.zhName || item.key) + "」的表單連結");
-          copy.addEventListener("click", function () { copyText(url); });
-          foot.appendChild(copy);
+          btn = el("a", "m-button");
+          btn.href = url;
+          btn.target = "_blank";
+          btn.rel = "noopener noreferrer";
+          btn.setAttribute("aria-label", (item.buttonText || "前往申請") + "：" + name + "（開啟新分頁）");
+          btn.innerHTML = icon(item.icon, 16, 2.4);
+          btn.appendChild(el("span", "", item.buttonText || "前往申請"));
         } else {
-          foot.appendChild(el("span", "pending-tag", "連結準備中"));
+          btn = el("span", "m-button");
+          btn.innerHTML = icon(item.icon, 16, 2.4);
+          btn.appendChild(el("span", "", "連結準備中"));
         }
-        body.appendChild(foot);
-        li.appendChild(body);
-        return li;
-      }
-
-      function render() {
-        var q = searchEl.value.trim().toLowerCase();
-        var shown = forms.filter(function (f) {
-          if (!q) return true;
-          return [f.zhName, f.enName, f.description, f.key]
-            .join(" ").toLowerCase().indexOf(q) !== -1;
-        });
-
-        listEl.innerHTML = "";
-        listEl.setAttribute("aria-busy", "false");
-        shown.forEach(function (f) { listEl.appendChild(renderCard(f)); });
-
-        countEl.textContent = q ? "符合 " + shown.length + " / " + forms.length + " 項" : "共 " + forms.length + " 項";
-
-        if (shown.length === 0) {
-          showState(forms.length ? "找不到符合的表單" : "目前沒有可申請的表單",
-            forms.length ? "請換個關鍵字試試看。" : "");
-        } else {
-          stateEl.hidden = true;
-        }
+        body.appendChild(btn);
+        card.appendChild(body);
+        return card;
       }
 
       function showState(title, msgHtml) {
-        stateEl.className = "state";
-        stateEl.innerHTML = "<strong></strong><span></span>";
-        stateEl.querySelector("strong").textContent = title;
-        stateEl.querySelector("span").innerHTML = msgHtml || "";
-        stateEl.hidden = false;
+        listEl.innerHTML = "";
+        var box = el("div", "m-state");
+        box.appendChild(el("strong", "", title));
+        var msg = el("span");
+        msg.innerHTML = msgHtml || "";
+        box.appendChild(msg);
+        listEl.appendChild(box);
       }
-
-      var toastTimer;
-      function toast(msg) {
-        toastEl.textContent = msg;
-        toastEl.classList.add("show");
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 1800);
-      }
-
-      function copyText(text) {
-        function fallback() {
-          var ta = document.createElement("textarea");
-          ta.value = text;
-          ta.setAttribute("readonly", "");
-          ta.style.position = "fixed";
-          ta.style.opacity = "0";
-          document.body.appendChild(ta);
-          ta.select();
-          var ok = false;
-          try { ok = document.execCommand("copy"); } catch (e) {}
-          document.body.removeChild(ta);
-          toast(ok ? "已複製連結" : "複製失敗，請手動複製");
-        }
-        if (navigator.clipboard && window.isSecureContext) {
-          navigator.clipboard.writeText(text).then(function () { toast("已複製連結"); }, fallback);
-        } else {
-          fallback();
-        }
-      }
-
-      searchEl.addEventListener("input", render);
-
-      // 按 "/" 快速聚焦搜尋框
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "/" && document.activeElement !== searchEl) {
-          e.preventDefault();
-          searchEl.focus();
-        }
-      });
 
       fetch(DATA_URL, { cache: "no-cache" })
         .then(function (res) {
@@ -550,19 +471,22 @@
           return res.json();
         })
         .then(function (data) {
-          forms = Array.isArray(data) ? data : [];
-          render();
+          var forms = Array.isArray(data) ? data : [];
+          listEl.innerHTML = "";
+          if (!forms.length) {
+            showState("目前沒有可申請的表單", "");
+          } else {
+            forms.forEach(function (f, i) { listEl.appendChild(renderItem(f, i)); });
+          }
         })
         .catch(function (err) {
-          listEl.innerHTML = "";
-          listEl.setAttribute("aria-busy", "false");
-          countEl.textContent = "";
           var hint = location.protocol === "file:"
             ? "直接用檔案開啟時瀏覽器會阻擋讀取資料，請改用本機伺服器預覽，例如在專案資料夾執行 <code>python -m http.server</code>。"
             : "請確認 <code>" + DATA_URL + "</code> 存在且格式正確。";
           showState("表單清單載入失敗", hint);
           console.error(err);
-        });
+        })
+        .then(function () { listEl.setAttribute("aria-busy", "false"); });
     })();
   </script>
 </body>
