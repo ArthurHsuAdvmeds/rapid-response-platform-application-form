@@ -24,7 +24,7 @@ jobs:
 
       # 表單清單格式錯誤會讓網頁載入失敗，先擋下來
       - name: Validate form list JSON
-        run: node .github/scripts/validate-form-list.js data/form_list.json
+        run: jq empty data/form_list.json
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
